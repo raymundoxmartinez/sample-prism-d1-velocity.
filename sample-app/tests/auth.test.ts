@@ -41,7 +41,7 @@ describe('POST /auth/login - Success', () => {
     expect(decoded.exp - decoded.iat).toBe(3600);
   });
 
-  it('is case-insensitive for email addresses', async () => {
+  it('is case-insensitive for email addresses (login with uppercase)', async () => {
     const res = await request(app)
       .post('/auth/login')
       .set('Content-Type', 'application/json')
@@ -49,6 +49,24 @@ describe('POST /auth/login - Success', () => {
 
     expect(res.status).toBe(200);
     expect(res.body.token).toBeDefined();
+  });
+
+  it('is case-insensitive for email addresses (register uppercase, login lowercase)', async () => {
+    // Create a user with uppercase email
+    await createUser('ADMIN@EXAMPLE.COM', 'securepass123');
+
+    // Login with lowercase email
+    const res = await request(app)
+      .post('/auth/login')
+      .set('Content-Type', 'application/json')
+      .send({ email: 'admin@example.com', password: 'securepass123' });
+
+    expect(res.status).toBe(200);
+    expect(res.body.token).toBeDefined();
+
+    // Verify token contains normalized email
+    const decoded = verifyToken(res.body.token);
+    expect(decoded.email).toBe('admin@example.com');
   });
 });
 
