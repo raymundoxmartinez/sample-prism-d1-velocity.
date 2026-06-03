@@ -1,0 +1,7 @@
+{
+  "pass_threshold": null,
+  "eval_model_id": "./.prism/eval-harness/run-eval.sh .prism/eval-harness/rubrics/api-rubric.json sample-app/src/routes/auth.ts",
+  "aws_region": "./.prism/eval-harness/run-eval.sh .prism/eval-harness/rubrics/api-rubric.json sample-app/src/routes/auth.ts --spec sample-app/specs/user-auth.md",
+  "event_bus": "prism-d1-metrics",
+  "emit_to_eventbridge": true
+}
