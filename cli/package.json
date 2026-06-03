@@ -1,0 +1,40 @@
+{
+  "name": "@prism-d1/cli",
+  "version": "1.0.14",
+  "description": "PRISM D1 Velocity CLI — AI development lifecycle assessment tool",
+  "author": "andklee",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aws-samples/sample-prism-d1-velocity.git"
+  },
+  "type": "module",
+  "bin": {
+    "prism-cli": "./dist/bin/prism-cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "npx tsc && mkdir -p dist/assets && cp -r ../bootstrapper/metric-hooks dist/assets/",
+    "prepublishOnly": "npm run build",
+    "start": "tsx bin/prism-cli.ts",
+    "dev": "tsx bin/prism-cli.ts"
+  },
+  "dependencies": {
+    "@aws-sdk/client-bedrock-runtime": "^3.700.0",
+    "chalk": "^4.1.2",
+    "codeburn": "^0.9.11",
+    "commander": "^12.1.0",
+    "glob": "^13.0.6",
+    "simple-git": "^3.36.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsx": "^4.16.0",
+    "typescript": "^5.5.0"
+  }
+}
