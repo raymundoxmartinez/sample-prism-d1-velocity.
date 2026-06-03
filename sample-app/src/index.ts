@@ -1,9 +1,18 @@
+// PRISM D1 Workshop
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import tasksRouter from './routes/tasks';
+import healthRouter from './routes/health';
+import authRouter from './routes/auth';
+import { seedUsers } from './models/user-store';
 
 const app = express();
 const PORT = process.env.PORT ?? 3000;
+
+// Initialize user store with default user
+seedUsers().catch((err) => {
+  console.error('Failed to seed users:', err);
+});
 
 // ---------------------------------------------------------------------------
 // Middleware
@@ -18,6 +27,8 @@ app.get('/.well-known/aws/securityagent-domain-verification.json', (_req, res) =
   res.json({ tokens: [process.env.DOMAIN_VERIFICATION_TOKEN ?? ''] });
 });
 
+app.use(healthRouter);
+app.use(authRouter);
 app.use(tasksRouter);
 
 // ---------------------------------------------------------------------------
@@ -45,3 +56,4 @@ if (require.main === module) {
 }
 
 export default app;
+// workshop test
